@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * GKislin
@@ -31,6 +33,10 @@ public class Meal {
 
     public LocalDateTime getDateTime() {
         return dateTime;
+    }
+
+    public Date getDateTimeAsDate() {
+        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public String getDescription() {

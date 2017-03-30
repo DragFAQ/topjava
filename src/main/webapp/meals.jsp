@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,17 +17,10 @@
     </thead>
     <tbody>
     <c:forEach items="${meals}" var="meal">
-        <c:choose>
-            <c:when test="${meal.exceed}">
-                <tr style="color: #ff0000">
-            </c:when>
-            <c:otherwise>
-                <tr style="color: #00ff00">
-            </c:otherwise>
-        </c:choose>
-            <td><c:out value="${meal.dateTime}" /></td>
-            <td><c:out value="${meal.description}" /></td>
-            <td><c:out value="${meal.calories}" /></td>
+        <tr style="color: <c:out value="${meal.exceed ? '#ff0000' : '#00ff00'}" /> ">
+            <td><fmt:formatDate value="${meal.dateTimeAsDate}" pattern="yyyy-MM-dd HH:mm" /></td>
+            <td>${meal.description}</td>
+            <td>${meal.calories}</td>
             <td>
                 <a href="meals?action=edit&id=<c:out value="${meal.id}"/>">Update</a>
             </td>

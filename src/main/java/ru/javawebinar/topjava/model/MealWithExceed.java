@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * GKislin
@@ -29,8 +31,12 @@ public class MealWithExceed {
         return id;
     }
 
-    public String getDateTime() {
-        return dateTime.toLocalDate() + " " + dateTime.toLocalTime();
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public Date getDateTimeAsDate() {
+        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public String getDescription() {

@@ -13,7 +13,7 @@
                      value="${meal.id}" /> <br />
     Date : <input
         type="datetime" name="dateTime"
-        value="${meal.dateTime}" /> <br />
+        value="<fmt:formatDate value="${meal.dateTimeAsDate}" pattern="yyyy-MM-dd HH:mm" />" /> <br />
     Description : <input
         type="text" name="description"
         value="${meal.description}" /> <br />
