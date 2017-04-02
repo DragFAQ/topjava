@@ -20,7 +20,8 @@ public class User extends NamedEntity {
 
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
-    public User() {
+    public User(String name, String email, String password, boolean enabled, Role role, Role... roles) {
+        this(null, name, email, password, DEFAULT_CALORIES_PER_DAY, enabled, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
@@ -34,6 +35,14 @@ public class User extends NamedEntity {
         this.caloriesPerDay = caloriesPerDay;
         this.enabled = enabled;
         this.roles = roles;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -78,6 +87,10 @@ public class User extends NamedEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isNew() {
+        return id == null;
     }
 
     @Override
