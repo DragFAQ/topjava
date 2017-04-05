@@ -51,11 +51,13 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         LOG.info("getAll");
+        Comparator<User> byName = Comparator.comparing(user -> user.getName().toLowerCase());
+        Comparator<User> byEmail = Comparator.comparing(user -> user.getEmail().toLowerCase());
 
         return repository
                 .values()
                 .stream()
-                .sorted(Comparator.comparing(u -> u.getName().toLowerCase()))
+                .sorted(byName.thenComparing(byEmail))
                 .collect(Collectors.toList());
     }
 

@@ -30,10 +30,10 @@ public class SpringMain {
             dao.save(new User("bbb", "abs", "qwe", true, Role.ROLE_USER));
             dao.getAll().stream().forEach(System.out::println);*/
 // controller test
-            MealRestController rest = appCtx.getBean(MealRestController.class);
+         /*   MealRestController rest = appCtx.getBean(MealRestController.class);
             System.out.println("All list");
             rest.getAll().stream().forEach(System.out::println);
-            /*System.out.println("Delete 4");
+            System.out.println("Delete 4");
             dao.delete(4);
             dao.getAll().stream().forEach(System.out::println);
             System.out.println("Find asvlogan@mail.ru");
