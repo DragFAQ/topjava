@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -31,7 +32,11 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        controller.save(request);
+        String action = request.getParameter("action");
+        if (action != null && action.equals("login"))
+            AuthorizedUser.setId(Integer.valueOf(request.getParameter("userId")));
+        else
+            controller.save(request);
         response.sendRedirect("meals");
     }
 

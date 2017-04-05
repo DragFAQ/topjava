@@ -11,5 +11,15 @@
     <li><a href="users">User List</a></li>
     <li><a href="meals">Meal List</a></li>
 </ul>
+
+<form method="post" action="meals">
+    <input type="hidden" name="action" value="login">
+    <p><select size="2" multiple name="userId">
+        <option selected value="1">1</option>
+        <option value="2">2</option>
+    </select></p>
+    <p><input type="submit" value="Логин"></p>
+</form>
+
 </body>
 </html>
