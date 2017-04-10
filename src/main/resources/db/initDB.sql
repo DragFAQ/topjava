@@ -34,3 +34,6 @@ CREATE TABLE meals (
   CONSTRAINT meals_pkey PRIMARY KEY(id),
   CONSTRAINT meals_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE INDEX meals_userid_idx ON public.meals
+USING btree (user_id);
