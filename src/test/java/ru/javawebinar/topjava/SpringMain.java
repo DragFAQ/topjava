@@ -20,6 +20,11 @@ public class SpringMain {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+            try {
+                adminUserController.delete(adminUserController.getByMail("email").getId());
+            } catch (Exception e) {
+                System.out.println("User with email = email not exists!");
+            }
             adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
             System.out.println();
 
