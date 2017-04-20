@@ -1,13 +1,7 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,63 +31,40 @@ public class MealServiceTest {
         SLF4JBridgeHandler.install();
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Rule
-    public TestWatcher watchman = new TestWatcher() {
-        private long start;
-
-        @Override
-        protected void starting(Description description) {
-            start = System.currentTimeMillis();
-        }
-
-        @Override
-        protected void finished(Description description) {
-            long end = System.currentTimeMillis();
-            logger.info(description.getMethodName() + " - " + (end - start) + "ms");
-        }
-    };
-
     @Autowired
     private MealService service;
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), service.getAll(USER_ID));
     }
 
-    @Test
-    public void testDeleteNotFound() {
-        thrown.expect(NotFoundException.class);
+    @Test(expected = NotFoundException.class)
+    public void testDeleteNotFound() throws Exception {
         service.delete(MEAL1_ID, 1);
     }
 
     @Test
-    public void testSave() {
+    public void testSave() throws Exception {
         Meal created = getCreated();
         service.save(created, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), service.getAll(USER_ID));
     }
 
     @Test
-    public void testGet() {
+    public void testGet() throws Exception {
         Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL1, actual);
     }
 
-    @Test
+    @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
-        thrown.expect(NotFoundException.class);
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws Exception {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
         MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
@@ -105,12 +76,12 @@ public class MealServiceTest {
     }
 
     @Test
-    public void testGetAll() {
+    public void testGetAll() throws Exception {
         MATCHER.assertCollectionEquals(MEALS, service.getAll(USER_ID));
     }
 
     @Test
-    public void testGetBetween() {
+    public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
     }
