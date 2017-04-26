@@ -13,13 +13,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import static ru.javawebinar.topjava.MealTestData.MEALS;
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public class UserServiceTest extends BaseServiceTest {
+public abstract class UserServiceTest extends BaseServiceTest {
 
     @Autowired
-    private UserService service;
+    protected UserService service;
 
     @Before
     public void setUp() throws Exception {
@@ -54,13 +53,6 @@ public class UserServiceTest extends BaseServiceTest {
     public void testGet() throws Exception {
         User user = service.get(USER_ID);
         MATCHER.assertEquals(USER, user);
-    }
-
-    @Test
-    public void testGetWithMeals() throws Exception {
-        User user = service.getWithMeals(USER_ID);
-        MATCHER.assertEquals(USER, user);
-        MealTestData.MATCHER.assertCollectionEquals(MEALS, user.getMeals());
     }
 
     @Test(expected = NotFoundException.class)

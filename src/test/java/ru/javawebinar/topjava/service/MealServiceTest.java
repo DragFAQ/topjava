@@ -20,7 +20,7 @@ import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
-public class MealServiceTest extends BaseServiceTest {
+public abstract class MealServiceTest extends BaseServiceTest {
     private static StringBuilder results = new StringBuilder();
 
     @Rule
@@ -47,7 +47,7 @@ public class MealServiceTest extends BaseServiceTest {
     }
 
     @Autowired
-    private MealService service;
+    protected MealService service;
 
     @Test
     public void testDelete() throws Exception {
