@@ -2,9 +2,9 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import static ru.javawebinar.topjava.MealTestData.MEALS;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 public class UserServiceTest extends BaseServiceTest {
@@ -53,6 +54,13 @@ public class UserServiceTest extends BaseServiceTest {
     public void testGet() throws Exception {
         User user = service.get(USER_ID);
         MATCHER.assertEquals(USER, user);
+    }
+
+    @Test
+    public void testGetWithMeals() throws Exception {
+        User user = service.getWithMeals(USER_ID);
+        MATCHER.assertEquals(USER, user);
+        MealTestData.MATCHER.assertCollectionEquals(MEALS, user.getMeals());
     }
 
     @Test(expected = NotFoundException.class)
