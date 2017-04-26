@@ -17,7 +17,7 @@ import ru.javawebinar.topjava.Profiles;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({Profiles.ACTIVE_DB, Profiles.DATA_JPA})
+@ActiveProfiles({Profiles.POSTGRES_DB, Profiles.JDBC})
 
 public abstract class BaseServiceTest {
     protected static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);

@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
