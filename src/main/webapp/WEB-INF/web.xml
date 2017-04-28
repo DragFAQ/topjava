@@ -5,7 +5,7 @@
          version="3.1">
     <display-name>Topjava</display-name>
 
-k    <context-param>
+    <context-param>
         <param-name>spring.profiles.default</param-name>
         <param-value>postgres,datajpa</param-value>
     </context-param>
