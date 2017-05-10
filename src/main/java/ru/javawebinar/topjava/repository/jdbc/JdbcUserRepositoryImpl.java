@@ -48,6 +48,10 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User save(User user) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
+        String roles = "'";
+        for (Role r : user.getRoles())
+            roles += r.toString() + "','";
+        roles = roles.replaceFirst("\\,\\'$", "");
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
@@ -55,7 +59,15 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", parameterSource);
+
+            jdbcTemplate.update("DELETE FROM user_roles where user_id=? AND role not in (" + roles + ")", user.getId());
         }
+
+        jdbcTemplate.update("INSERT INTO user_roles (user_id, role) " +
+                "SELECT r.id, r.role_array from (SELECT ? as id, unnest(array[" + roles + "]) AS role_array) r " +
+                "WHERE r.role_array not in (SELECT role FROM user_roles where user_id=r.id)", user.getId());
+
+
         return user;
     }
 
@@ -94,14 +106,14 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        return (List<User>) jdbcTemplate.query("SELECT * FROM users JOIN user_roles ON user_id = id ORDER BY name, email", (new UserExtractor()));
+        return (List<User>) jdbcTemplate.query("SELECT * FROM users LEFT JOIN user_roles ON user_id = id ORDER BY name, email", (new UserExtractor()));
     }
 
     private class UserExtractor implements ResultSetExtractor {
 
         @Override
         public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
-            Map<Integer, User> map = new HashMap<>();
+            Map<Integer, User> map = new LinkedHashMap<>();
             User user = null;
             while (rs.next()) {
                 Integer id = rs.getInt("id");
