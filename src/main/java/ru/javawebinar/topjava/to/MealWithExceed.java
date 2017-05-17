@@ -1,5 +1,10 @@
 package ru.javawebinar.topjava.to;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 import java.time.LocalDateTime;
 
 /**
@@ -17,7 +22,15 @@ public class MealWithExceed {
 
     private final boolean exceed;
 
-    public MealWithExceed(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceed) {
+
+    public MealWithExceed(
+            @JsonProperty("id") Integer id,
+            @JsonProperty("dateTime")
+            @JsonDeserialize(using=LocalDateTimeDeserializer.class)
+            @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") LocalDateTime dateTime,
+            @JsonProperty("description") String description,
+            @JsonProperty("calories") int calories,
+            @JsonProperty("exceed") boolean exceed) {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
